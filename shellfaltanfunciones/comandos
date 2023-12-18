@@ -1,0 +1,9 @@
+cd /home/frank/Descargas
+gcc -o cliente cliente.c doc_code/tcp.c doc_code/leercadena.c
+./cliente 127.0.0.1 12348
+
+
+cd /home/frank/Descargas
+gcc -o servidor servidor.c doc_code/tcp.c doc_code/leercadena.c
+./servidor
+
