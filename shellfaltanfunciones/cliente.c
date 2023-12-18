@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
       printf("Cerrando conexion con servidor...\n");
       break;
     }
-    if (strncmp(comando, "file", 4) == 0) { // Si el comando comienza con "file"
+    if (strncmp(comando, "file ", 5) == 0) { // Si el comando comienza con "file "
     char *filename = strchr(comando, ' ');
-    if (filename != NULL) {
+      if (filename != NULL) {
         filename++; // Avanzar al nombre del archivo después del espacio
 
         // Enviar el nombre del archivo al servidor
@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
             sprintf(comandoEdit, "nano %s", filename);
             system(comandoEdit);
         }
+      }
     }
     
 
