@@ -29,7 +29,21 @@ int main()
       break;
     }
     pid_t pid = fork();
+    if (strcmp(command,"file",4)==0){
+      char *filename = strchr(command, ' '); // Buscar el primer espacio en el comando
+      if (filename != NULL) {
+        filename++; // Avanzar al siguiente carácter después del espacio
 
+        // Hacer algo con el nombre del archivo, por ejemplo, imprimirlo
+        printf("Nombre del archivo recibido: %s\n", filename);
+
+        // Enviar una señal al cliente indicando que puede editar el archivo con nano
+        TCP_Write_String(clientSocket, "Puedes editar el archivo con nano");
+
+        // Lógica adicional: podrías esperar a recibir el archivo modificado desde el cliente
+      }
+    }
+  }
     if (pid == 0)
     {
       // Redirigir la salida estándar al socket
