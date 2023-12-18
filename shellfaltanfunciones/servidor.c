@@ -43,7 +43,7 @@ int main()
         // Lógica adicional: podrías esperar a recibir el archivo modificado desde el cliente
       }
     }
-  }
+  
     if (pid == 0)
     {
       // Redirigir la salida estándar al socket
