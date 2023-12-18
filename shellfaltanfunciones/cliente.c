@@ -47,24 +47,27 @@ int main(int argc, char *argv[])
       printf("Cerrando conexion con servidor...\n");
       break;
     }
-    if (strncmp(comando, "file ", 5) == 0) { // Si el comando comienza con "file "
-      char filename[MAX_COMMAND_LENGTH - 5]; // Longitud máxima del nombre del archivo
-      strncpy(filename, comando + 5, sizeof(filename)); // Extraer el nombre del archivo del comando
+    if (strncmp(comando, "file", 4) == 0) { // Si el comando comienza con "file"
+    char *filename = strchr(comando, ' ');
+    if (filename != NULL) {
+        filename++; // Avanzar al nombre del archivo después del espacio
 
-      // Enviar el nombre del archivo al servidor
-      TCP_Write_String(clientSocket, filename);
+        // Enviar el nombre del archivo al servidor
+        TCP_Write_String(clientSocket, filename);
+        printf("Enviado nombre de archivo: %s\n", filename);
 
-      // Recibir el archivo del servidor
-      TCP_Recv_File(clientSocket, filename);
-      printf("%sArchivo recibido del servidor: %s%s\n", ANSI_COLOR_GREEN, filename, ANSI_COLOR_RESET);
+        char response[MAX_RESPONSE_LENGTH];
+        TCP_Read_String(clientSocket, response, MAX_RESPONSE_LENGTH);
 
-      // Modificar el archivo localmente
-      // Por ejemplo, abrir el archivo, realizar cambios y guardarlo nuevamente
-
-      // Enviar la versión modificada al servidor
-      TCP_Send_File(clientSocket, filename);
-      printf("%sArchivo modificado enviado al servidor: %s%s\n", ANSI_COLOR_GREEN, filename, ANSI_COLOR_RESET);
+        // Si el servidor envía la señal para editar con nano
+        if (strcmp(response, "Puedes editar el archivo con nano") == 0) {
+            // Abrir nano para editar el archivo recibido directamente
+            char comandoEdit[100];
+            sprintf(comandoEdit, "nano %s", filename);
+            system(comandoEdit);
+        }
     }
+    
 
     char response[MAX_RESPONSE_LENGTH];
     bzero(response, MAX_RESPONSE_LENGTH);
