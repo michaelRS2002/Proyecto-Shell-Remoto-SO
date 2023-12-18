@@ -44,7 +44,26 @@ int main(int argc, char *argv[])
 
     if (strcmp(comando, "salida") == 0)
     {
+      printf("Cerrando conexion con servidor...\n");
       break;
+    }
+    if (strncmp(comando, "file ", 5) == 0) { // Si el comando comienza con "file "
+      char filename[MAX_COMMAND_LENGTH - 5]; // Longitud máxima del nombre del archivo
+      strncpy(filename, comando + 5, sizeof(filename)); // Extraer el nombre del archivo del comando
+
+      // Enviar el nombre del archivo al servidor
+      TCP_Write_String(clientSocket, filename);
+
+      // Recibir el archivo del servidor
+      TCP_Recv_File(clientSocket, filename);
+      printf("%sArchivo recibido del servidor: %s%s\n", ANSI_COLOR_GREEN, filename, ANSI_COLOR_RESET);
+
+      // Modificar el archivo localmente
+      // Por ejemplo, abrir el archivo, realizar cambios y guardarlo nuevamente
+
+      // Enviar la versión modificada al servidor
+      TCP_Send_File(clientSocket, filename);
+      printf("%sArchivo modificado enviado al servidor: %s%s\n", ANSI_COLOR_GREEN, filename, ANSI_COLOR_RESET);
     }
 
     char response[MAX_RESPONSE_LENGTH];
