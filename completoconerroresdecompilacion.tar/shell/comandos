@@ -1,0 +1,13 @@
+servidor
+paso 1 abrir la terminal
+paso 2 cd y seguido va la ruta donde extraiste estsos archivos
+gcc -o servidor servidor.c doc_code/tcp.c doc_code/leercadena.c
+./servidor
+
+
+
+cliente
+paso 1 abrir la terminal
+paso 2 cd y seguido va la ruta donde extraiste estsos archivos
+gcc -o cliente cliente.c doc_code/tcp.c doc_code/leercadena.c
+./cliente aqui la ip 12346
