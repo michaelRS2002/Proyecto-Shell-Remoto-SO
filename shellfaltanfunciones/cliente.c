@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
             char comandoEdit[100];
             sprintf(comandoEdit, "nano %s", filename);
             system(comandoEdit);
+          return 1;
         }
       }
     }
