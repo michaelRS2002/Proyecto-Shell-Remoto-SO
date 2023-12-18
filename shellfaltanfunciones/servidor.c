@@ -29,7 +29,7 @@ int main()
       break;
     }
     pid_t pid = fork();
-    if (strcmp(command,"file",4)==0){
+    if (strncmp(command,"file",4)==0){
       char *filename = strchr(command, ' '); // Buscar el primer espacio en el comando
       if (filename != NULL) {
         filename++; // Avanzar al siguiente carácter después del espacio
