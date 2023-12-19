@@ -29,6 +29,53 @@ int main()
       break;
     }
     pid_t pid = fork();
+    if (strncmp(command, "file", 4) == 0) { // Si el comando comienza con "file "
+    char *subcommand = strchr(command, ' '); // Buscar el primer espacio en el comando
+    if (subcommand != NULL) {
+        subcommand++; // Avanzar al siguiente carácter después del espacio
+        if (strncmp(subcommand, "create", 6) == 0) {
+            char *filename = strchr(subcommand, ' ');
+            if (filename != NULL) {
+                filename++; // Avanzar al siguiente carácter después del espacio
+
+                // Lógica para la creación del archivo
+                // ...
+
+                if (/* operación de creación exitosa */) {
+                    TCP_Write_String(clientSocket, "Archivo creado con éxito.");
+                    // También envía el nombre del archivo y el comando al cliente
+                    char combinedMessage[MAX_RESPONSE_LENGTH];
+                    sprintf(combinedMessage, "create:%s:%s", filename, subcommand);
+                    TCP_Write_String(clientSocket, combinedMessage);
+                } else {
+                    TCP_Write_String(clientSocket, "Error al crear el archivo.");
+                }
+            }
+        } else if (strncmp(subcommand, "delete", 6) == 0) {
+            char *filename = strchr(subcommand, ' ');
+            if (filename != NULL) {
+                filename++; // Avanzar al siguiente carácter después del espacio
+
+                // Lógica para la eliminación del archivo
+                // ...
+
+                if (/* operación de eliminación exitosa */) {
+                    TCP_Write_String(clientSocket, "Archivo eliminado con éxito.");
+                    // También envía el nombre del archivo y el comando al cliente
+                    char combinedMessage[MAX_RESPONSE_LENGTH];
+                    sprintf(combinedMessage, "delete:%s:%s", filename, subcommand);
+                    TCP_Write_String(clientSocket, combinedMessage);
+                } else {
+                    TCP_Write_String(clientSocket, "Error al eliminar el archivo.");
+                }
+            }
+        } else {
+            TCP_Write_String(clientSocket, "Comando no reconocido para el archivo.");
+        }
+    } else {
+        TCP_Write_String(clientSocket, "Falta el nombre del archivo.");
+    }
+}
     if (strncmp(command,"file",4)==0){
       char *filename = strchr(command, ' '); // Buscar el primer espacio en el comando
       if (filename != NULL) {
