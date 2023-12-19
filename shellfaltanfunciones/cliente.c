@@ -48,13 +48,15 @@ int main(int argc, char *argv[])
       break;
     }
     if (strncmp(comando, "file", 4) == 0) { // Si el comando comienza con "file "
-    char *filename = strchr(comando, ' ');
+      char *subcommand = strchr(comando,' ');
+      if (strncmp(subcommand, "create", 6) == 0 || strncmp(subcommand, "edit", 4) == 0 || strncmp(subcommand, "delete", 6) == 0) {
+        char *filename = strchr(command, ' ');
       if (filename != NULL) {
         filename++; // Avanzar al nombre del archivo después del espacio
-
+        
         // Enviar el nombre del archivo al servidor
         TCP_Write_String(clientSocket, filename);
-        printf("Enviado nombre de archivo: %s\n", filename);
+        printf("Comando de archivo mandado al servidor: %s\n", filename);
 
         char response[MAX_RESPONSE_LENGTH];
         TCP_Read_String(clientSocket, response, MAX_RESPONSE_LENGTH);
