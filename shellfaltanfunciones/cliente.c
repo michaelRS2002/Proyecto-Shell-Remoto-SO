@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
             system(comandoEdit);
             continue;
         }
+        if(strcmp(response,"
       }
       else{
         printf("Falta el nombre del archivo.\n");
