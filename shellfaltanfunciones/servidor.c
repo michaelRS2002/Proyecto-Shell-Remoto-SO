@@ -37,7 +37,17 @@ int main()
             char *filename = strchr(subcommand, ' ');
             if (filename != NULL) {
                 filename++; // Avanzar al siguiente carácter después del espacio
-
+                FILE *file = fopen(filename, "a");
+                if (file != NULL) {
+                    fclose(file);
+                    TCP_Write_String(clientSocket, "Archivo creado con éxito.");
+                    printf("Archivo '%s' creado con éxito.\n", filename);
+                    } else {
+                    printf("Error al crear el archivo");
+                    TCP_Write_String(clientSocket, "Error al crear el archivo.");
+                    printf("Error al crear el archivo '%s'.\n", filename);
+                    }
+            }
                 // Lógica para la creación del archivo
                 // ...
 
