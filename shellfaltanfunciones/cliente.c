@@ -67,7 +67,10 @@ int main(int argc, char *argv[])
             system(comandoEdit);
             continue;
         }
-        if(strcmp(response,"
+        if(strcmp(response,"El archivo no existe en el servidor.")==0){
+          printf("El archivo no existe en el servidor.");
+          continue;
+        }
       }
       else{
         printf("Falta el nombre del archivo.\n");
