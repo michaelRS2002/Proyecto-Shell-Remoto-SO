@@ -30,25 +30,25 @@ int main()
     }
     pid_t pid = fork();
     if (strncmp(command, "file", 4) == 0) { // Si el comando comienza con "file "
-    char *subcommand = strchr(command, ' '); // Buscar el primer espacio en el comando
-    if (subcommand != NULL) {
-        subcommand++; // Avanzar al siguiente carácter después del espacio
-        if (strncmp(subcommand, "create", 6) == 0) {
-            char *filename = strchr(subcommand, ' ');
-            if (filename != NULL) {
-                filename++; // Avanzar al siguiente carácter después del espacio
-                FILE *file = fopen(filename, "a");
-                if (file != NULL) {
+        char *subcommand = strchr(command, ' '); // Buscar el primer espacio en el comando
+        if (subcommand != NULL) {
+          subcommand++; // Avanzar al siguiente carácter después del espacio
+          if (strncmp(subcommand, "create", 6) == 0) {
+              char *filename = strchr(subcommand, ' ');
+              if (filename != NULL) {
+                  filename++; // Avanzar al siguiente carácter después del espacio
+                  FILE *file = fopen(filename, "a");
+                  if (file != NULL) {
                     fclose(file);
                     TCP_Write_String(clientSocket, "Archivo creado con éxito.");
                     printf("Archivo '%s' creado con éxito.\n", filename);
-                    } else {
+                  } else {
                     printf("Error al crear el archivo");
                     TCP_Write_String(clientSocket, "Error al crear el archivo.");
                     printf("Error al crear el archivo '%s'.\n", filename);
                     }
-            }
-        }
+              }
+          }
         if (strncmp(subcommand, "edit", 4) == 0) {
             char *filename = strchr(subcommand, ' ');
             if (filename != NULL) {
@@ -82,21 +82,6 @@ int main()
         TCP_Write_String(clientSocket, "Falta el nombre del archivo.");
     }
 }
-    if (strncmp(command,"file",4)==0){
-      char *filename = strchr(command, ' '); // Buscar el primer espacio en el comando
-      if (filename != NULL) {
-        filename++; // Avanzar al siguiente carácter después del espacio
-
-        // Hacer algo con el nombre del archivo, por ejemplo, imprimirlo
-        printf("Nombre del archivo recibido: %s\n", filename);
-        if (access(filename, F_OK) != -1) {
-          TCP_Write_String(clientSocket, "Puedes editar el archivo con nano");
-        } 
-        else {
-        printf("El archivo que pide cliente no existe o no se puede acceder.\n");
-        TCP_Write_String(clientSocket, "El archivo no existe en el servidor.");
-        // Aquí puedes manejar la situación en la que el archivo no existe
-        }
       }
     }
   
