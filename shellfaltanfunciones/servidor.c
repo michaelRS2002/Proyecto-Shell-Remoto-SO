@@ -36,11 +36,14 @@ int main()
 
         // Hacer algo con el nombre del archivo, por ejemplo, imprimirlo
         printf("Nombre del archivo recibido: %s\n", filename);
-
-        // Enviar una señal al cliente indicando que puede editar el archivo con nano
-        TCP_Write_String(clientSocket, "Puedes editar el archivo con nano");
-
-        // Lógica adicional: podrías esperar a recibir el archivo modificado desde el cliente
+        if (access(filename, F_OK) != -1) {
+          TCP_Write_String(clientSocket, "Puedes editar el archivo con nano");
+        } 
+        else {
+        printf("El archivo que pide cliente no existe o no se puede acceder.\n");
+        TCP_Write_String(clientSocket, "El archivo no existe en el servidor.");
+        // Aquí puedes manejar la situación en la que el archivo no existe
+        }
       }
     }
   
