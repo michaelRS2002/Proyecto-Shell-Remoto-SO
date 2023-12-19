@@ -60,7 +60,10 @@ int main(int argc, char *argv[])
 
         char response[MAX_RESPONSE_LENGTH];
         TCP_Read_String(clientSocket, response, MAX_RESPONSE_LENGTH);
-
+        if (strcmp(response, "") == 0) {
+            printf("El archivo fue creado con exito para editarlo usa file edit <filename>");
+            continue;
+        }
         // Si el servidor envía la señal para editar con nano
         if (strcmp(response, "Puedes editar el archivo con nano") == 0) {
             // Abrir nano para editar el archivo recibido directamente
