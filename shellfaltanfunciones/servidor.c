@@ -48,36 +48,32 @@ int main()
                     printf("Error al crear el archivo '%s'.\n", filename);
                     }
             }
-                // Lógica para la creación del archivo
-                // ...
-
-                if (/* operación de creación exitosa */) {
-                    TCP_Write_String(clientSocket, "Archivo creado con éxito.");
-                    // También envía el nombre del archivo y el comando al cliente
-                    char combinedMessage[MAX_RESPONSE_LENGTH];
-                    sprintf(combinedMessage, "create:%s:%s", filename, subcommand);
-                    TCP_Write_String(clientSocket, combinedMessage);
-                } else {
-                    TCP_Write_String(clientSocket, "Error al crear el archivo.");
-                }
-            }
-        } else if (strncmp(subcommand, "delete", 6) == 0) {
+        }
+        if (strncmp(subcommand, "edit", 4) == 0) {
             char *filename = strchr(subcommand, ' ');
             if (filename != NULL) {
                 filename++; // Avanzar al siguiente carácter después del espacio
-
-                // Lógica para la eliminación del archivo
-                // ...
-
-                if (/* operación de eliminación exitosa */) {
-                    TCP_Write_String(clientSocket, "Archivo eliminado con éxito.");
-                    // También envía el nombre del archivo y el comando al cliente
-                    char combinedMessage[MAX_RESPONSE_LENGTH];
-                    sprintf(combinedMessage, "delete:%s:%s", filename, subcommand);
-                    TCP_Write_String(clientSocket, combinedMessage);
-                } else {
-                    TCP_Write_String(clientSocket, "Error al eliminar el archivo.");
+                printf("Archivo a editar: %s\n", filename);
+                if (access(filename, F_OK) != -1) {
+                  TCP_Write_String(clientSocket, "Puedes editar el archivo con nano");
+                } 
+                else {
+                printf("El archivo que pide cliente no existe o no se puede acceder.\n");
+                TCP_Write_String(clientSocket, "El archivo no existe en el servidor.");
                 }
+            }
+        }        
+        if (strncmp(subcommand, "delete", 6) == 0) {
+            char *filename = strchr(subcommand, ' ');
+            if (filename != NULL) {
+                filename++; // Avanzar al siguiente carácter después del espacio
+                printf("Archivo a borrar: %s\n", filename
+                if (remove(filename) == 0) {
+                  printf("Archivo eliminado exitosamente.\n");
+                  TCP_Write_String(clientSocket, "Archivo eliminado exitosamente.\n" );
+                 } else {
+                   printf("Error al intentar eliminar el archivo.\n");
+            }
             }
         } else {
             TCP_Write_String(clientSocket, "Comando no reconocido para el archivo.");
