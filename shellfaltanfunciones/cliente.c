@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
         char response[MAX_RESPONSE_LENGTH];
         TCP_Read_String(clientSocket, response, MAX_RESPONSE_LENGTH);
-        if (strcmp(response, "") == 0) {
+        if (strcmp(response, "Archivo creado con éxito.") == 0) {
             printf("El archivo fue creado con exito para editarlo usa file edit <filename>");
             continue;
         }
