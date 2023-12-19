@@ -68,6 +68,11 @@ int main(int argc, char *argv[])
             continue;
         }
       }
+      else{
+        printf("Falta el nombre del archivo.\n");
+        // Limpiar el búfer para volver a pedir un nuevo comando al usuario
+        continue; // Continuar para pedir un nuevo comando sin ejecutar el resto del código
+      }
     }
     
 
